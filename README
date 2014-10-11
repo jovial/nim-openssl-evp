@@ -1,3 +1,23 @@
 OpenSSL EVP wrapper for Nim (formerly Nimrod)
 
+to compile nim example:
+
+cd examples/
+nim c -d:release evp_ex1
+
+you should then be able to run with:
+
+./evp_ex1
+
+to compile the c example:
+
+./configure
+make
+
+you should then be able to run with:
+
+examples/evp_ex1_c
+
+
+
 
