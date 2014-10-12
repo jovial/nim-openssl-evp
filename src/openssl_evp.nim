@@ -1,4 +1,6 @@
- {.deadCodeElim: on.}
+import openssl_crypto
+
+{.deadCodeElim: on.}
 when defined(windows): 
   const 
     cryptodll* = "libcrypto.dll"
@@ -41,50 +43,52 @@ const
   EVP_PKS_EC* = 0x00000400
   EVP_PKT_EXP* = 0x00001000
   
-var
-  EVP_PKEY_NONE* {.importc: "EVP_PKEY_NONE", header: "<openssl/evp.h>".} : cint
-  EVP_PKEY_RSA* {.importc: "EVP_PKEY_RSA", header: "<openssl/evp.h>".} : cint
-  EVP_PKEY_RSA2* {.importc: "EVP_PKEY_RSA2", header: "<openssl/evp.h>".} : cint
-  EVP_PKEY_DSA* {.importc: "EVP_PKEY_DSA", header: "<openssl/evp.h>".} : cint
-  EVP_PKEY_DSA1* {.importc: "EVP_PKEY_DSA1", header: "<openssl/evp.h>".} : cint
-  EVP_PKEY_DSA2* {.importc: "EVP_PKEY_DSA2", header: "<openssl/evp.h>".} : cint
-  EVP_PKEY_DSA3* {.importc: "EVP_PKEY_DSA3", header: "<openssl/evp.h>".} : cint
-  EVP_PKEY_DSA4* {.importc: "EVP_PKEY_DSA4", header: "<openssl/evp.h>".} : cint
-  EVP_PKEY_DH* {.importc: "EVP_PKEY_DH", header: "<openssl/evp.h>".} : cint
-  EVP_PKEY_EC* {.importc: "EVP_PKEY_EC", header: "<openssl/evp.h>".} : cint
-  EVP_PKEY_HMAC* {.importc: "EVP_PKEY_HMAC", header: "<openssl/evp.h>".} : cint
-  EVP_PKEY_CMAC* {.importc: "EVP_PKEY_CMAC", header: "<openssl/evp.h>".} : cint
+  EVP_PKEY_NONE* = NID_undef
+  EVP_PKEY_RSA* = NID_rsaEncryption
+  EVP_PKEY_RSA2* = NID_rsa
+  EVP_PKEY_DSA* = NID_dsa
+  EVP_PKEY_DSA1* = NID_dsa_2
+  EVP_PKEY_DSA2* = NID_dsaWithSHA
+  EVP_PKEY_DSA3* = NID_dsaWithSHA1
+  EVP_PKEY_DSA4* = NID_dsaWithSHA1_2
+  EVP_PKEY_DH* = NID_dhKeyAgreement
+  EVP_PKEY_EC* = NID_X9_62_id_ecPublicKey
+  EVP_PKEY_HMAC* = NID_hmac
+  EVP_PKEY_CMAC* = NID_cmac
   
   # couldn't define this one, so importing from header (possible typo in evp.h?)
-  EVP_PKEY_OP_TYPE_NOGEN {.importc: "EVP_PKEY_OP_TYPE_NOGEN", header: "<openssl/evp.h>".} : cint
+  #EVP_PKEY_OP_TYPE_NOGEN {.importc: "EVP_PKEY_OP_TYPE_NOGEN", header: "<openssl/evp.h>".} : cint
   #EVP_PKEY_OP_SIG* {.importc: "EVP_PKEY_OP_SIG", header: "<openssl/evp.h>".} : cint
   #EVP_PKEY_OP_CRYPT* {.importc: "EVP_PKEY_OP_CRYPT", header: "<openssl/evp.h>".} : cint
 
+
+export
+  ec_key_st,
+  dh_st,
+  dsa_st,
+  rsa_st,
+  EVP_PKEY_ASN1_METHOD,
+  ENGINE,
+  stack_st_X509_ATTRIBUTE,
+  EVP_MD_CTX,
+  EVP_MD,
+  EVP_PKEY_CTX,
+  EVP_CIPHER_CTX,
+  ASN1_TYPE,
+  EVP_PKEY,
+  BIO_METHOD,
+  BIO,
+  ASN1_PCTX,
+  ASN1_OBJECT,
+  EVP_PBE_KEYGEN,
+  X509_PUBKEY,
+  PKCS8_PRIV_KEY_INFO,
+  EVP_PKEY_METHOD
+
 type
-  # CHECK THESE ARE CORRECT TYPE i.e not some int constant or something
-  ec_key_st* {.importc: "ec_key_st", header: "<openssl/evp.h>",final, pure.} = object
-  dh_st* {.importc: "dh_st", header: "<openssl/evp.h>",final, pure.} = object
-  dsa_st* {.importc: "dsa_st", header: "<openssl/evp.h>",final, pure.} = object
-  rsa_st* {.importc: "rsa_st", header: "<openssl/evp.h>",final, pure.} = object 
-  EVP_PKEY_ASN1_METHOD* {.importc: "EVP_PKEY_ASN1_METHOD", header: "<openssl/evp.h>",final, pure.} = object
-  ENGINE* {.importc: "ENGINE", header: "<openssl/evp.h>",final, pure.} = object
-  stack_st_X509_ATTRIBUTE* {.importc: "stack_st_X509_ATTRIBUTE", header: "<openssl/evp.h>",final, pure.} = object
-  EVP_MD_CTX* {.importc: "EVP_MD_CTX", header: "<openssl/evp.h>",final, pure.} = object
-  EVP_MD* {.importc: "EVP_MD", header: "<openssl/evp.h>",final, pure.} = object
-  EVP_PKEY_CTX* {.importc: "EVP_PKEY_CTX", header: "<openssl/evp.h>",final, pure.} = object
-  EVP_CIPHER_CTX* {.importc: "EVP_CIPHER_CTX", header: "<openssl/evp.h>",final, pure.} = object
-  ASN1_TYPE* {.importc: "ASN1_TYPE", header: "<openssl/evp.h>",final, pure.} = object
-  T_EVP_CIPHER* {.importc: "EVP_CIPHER", header: "<openssl/evp.h>",final, pure.} = object
-  EVP_PKEY* {.importc: "EVP_PKEY", header: "<openssl/evp.h>",final, pure.} = object
-  BIO_METHOD* {.importc: "BIO_METHOD", header: "<openssl/evp.h>",final, pure.} = object
-  BIO* {.importc: "BIO", header: "<openssl/evp.h>",final, pure.} = object
-  ASN1_PCTX* {.importc: "ASN1_PCTX", header: "<openssl/evp.h>",final, pure.} = object
-  ASN1_OBJECT* {.importc: "ASN1_OBJECT", header: "<openssl/evp.h>",final, pure.} = object
-  EVP_PBE_KEYGEN* {.importc: "EVP_PBE_KEYGEN", header: "<openssl/evp.h>",final, pure.} = object
-  X509_PUBKEY* {.importc: "X509_PUBKEY", header: "<openssl/evp.h>",final, pure.} = object
-  PKCS8_PRIV_KEY_INFO* {.importc: "PKCS8_PRIV_KEY_INFO", header: "<openssl/evp.h>",final, pure.} = object
-  EVP_PKEY_METHOD* {.importc: "EVP_PKEY_METHOD", header: "<openssl/evp.h>",final, pure.} = object
-  
+    T_EVP_CIPHER* = openssl_crypto.EVP_CIPHER
+
+type  
   evp_pkey* = object  {.union.}
     pntr*: cstring
     rsa*: ptr rsa_st
