@@ -540,7 +540,7 @@ const
   NID_hmac* = 855
   NID_cmac* = 894
 
-# note: if pointer alias doesn't work, use method from stdlib openssl 
+# note: if SslPtr -> pointer alias doesn't work, use method from stdlib openssl 
 type
   SslPtr = pointer
   ASN1_ITEM_st = SslPtr
