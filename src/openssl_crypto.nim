@@ -9,10 +9,10 @@ elif defined(macosx):
 else: 
   const 
     cryptodll* = "libcrypto.so"
-    
+
+# not exported from times    
 type    
   time_t {.importc: "time_t", header: "<sys/time.h>".} = int
-
 
 const 
   SN_undef* = "UNDEF"
@@ -539,7 +539,8 @@ const
   NID_X9_62_id_ecPublicKey* = 408
   NID_hmac* = 855
   NID_cmac* = 894
- 
+
+# note: if pointer alias doesn't work, use method from stdlib openssl 
 type
   SslPtr = pointer
   ASN1_ITEM_st = SslPtr
