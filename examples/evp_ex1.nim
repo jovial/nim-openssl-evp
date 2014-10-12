@@ -8,8 +8,8 @@ proc main(name: string) =
     var md_len: cuint
     OpenSSL_add_all_digests()
     let md = EVP_get_digestbyname(name);
-    var msg1 = "Test Message"
-    var msg2 = "Hello World"
+    var msg1 = "Test Message\n"
+    var msg2 = "Hello World\n"
     var md_value: array[EVP_MAX_MD_SIZE, cuchar]
     if (md == nil):
       raise newException(ValueError, "Unknown message digest: " & name)
