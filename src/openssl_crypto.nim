@@ -1010,7 +1010,7 @@ proc sk_new*(cmp: proc (a2: pointer; a3: pointer): cint {.cdecl.}): ptr mStack {
 proc sk_new_null*(): ptr mStack {.cdecl, importc: "sk_new_null", 
                                   dynlib: cryptodll.}
 proc sk_free*(a2: ptr mStack) {.cdecl, importc: "sk_free", dynlib: cryptodll.}
-proc sk_pop_free*(st: ptr mStack; func: proc (a2: pointer) {.cdecl.}) {.cdecl, 
+proc sk_pop_free*(st: ptr mStack; fn: proc (a2: pointer) {.cdecl.}) {.cdecl, 
     importc: "sk_pop_free", dynlib: cryptodll.}
 proc sk_insert*(sk: ptr mStack; data: pointer; where: cint): cint {.cdecl, 
     importc: "sk_insert", dynlib: cryptodll.}
@@ -1082,11 +1082,11 @@ proc CRYPTO_num_locks*(): cint {.cdecl, importc: "CRYPTO_num_locks",
                                  dynlib: cryptodll.}
 proc CRYPTO_lock*(mode: cint; typ: cint; file: cstring; line: cint) {.cdecl, 
     importc: "CRYPTO_lock", dynlib: cryptodll.}
-#void CRYPTO_set_locking_callback(void (*func)(int mode,int type,
+#void CRYPTO_set_locking_callback(void (*fn)(int mode,int type,
 #           const char *file,int line));
 #void (*CRYPTO_get_locking_callback(void))(int mode,int type,const char *file,
 #  int line);
-#void CRYPTO_set_add_lock_callback(int (*func)(int *num,int mount,int type,
+#void CRYPTO_set_add_lock_callback(int (*fn)(int *num,int mount,int type,
 #           const char *file, int line));
 #int (*CRYPTO_get_add_lock_callback(void))(int *num,int mount,int type,
 #       const char *file,int line);
@@ -1109,7 +1109,7 @@ proc CRYPTO_THREADID_cpy*(dest: ptr CRYPTO_THREADID_OBJ; src: ptr CRYPTO_THREADI
     cdecl, importc: "CRYPTO_THREADID_cpy", dynlib: cryptodll.}
 proc CRYPTO_THREADID_hash*(id: ptr CRYPTO_THREADID_OBJ): culong {.cdecl, 
     importc: "CRYPTO_THREADID_hash", dynlib: cryptodll.}
-proc CRYPTO_set_id_callback*(func: proc (): culong {.cdecl.}) {.cdecl, 
+proc CRYPTO_set_id_callback*(fn: proc (): culong {.cdecl.}) {.cdecl, 
     importc: "CRYPTO_set_id_callback", dynlib: cryptodll.}
 #unsigned long (*CRYPTO_get_id_callback(void))(void);
 
