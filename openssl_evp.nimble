@@ -8,4 +8,4 @@ srcDir        = "src"
 InstallExt    = "nim"
 
 [Deps]
-Requires: "nimrod >= 0.9.6"
+Requires: "nimrod >= 0.9.4"
