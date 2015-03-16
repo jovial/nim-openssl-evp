@@ -57,7 +57,7 @@
 {.deadCodeElim: on.}
 when defined(windows): 
   const 
-    cryptodll* = "libcrypto.dll"
+    cryptodll* = "libeay(32|64).dll"
 elif defined(macosx): 
   const 
     cryptodll* = "libcrypto.dylib"
