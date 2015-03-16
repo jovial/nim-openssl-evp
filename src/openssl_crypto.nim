@@ -53,7 +53,14 @@
 #  derivative of this code cannot be changed.  i.e. this code cannot simply be
 #  copied and put under another distribution licence
 #  [including the GNU Public Licence.]
-# 
+#
+
+## Version Dependent imports
+## -------------------------
+## you should manually import the following constructs when explicitly needed:
+## .. code-block:: Nim
+##   var obj_cleanup_defer* {.importc: "obj_cleanup_defer", dynlib: cryptodll.}: cint
+
 {.deadCodeElim: on.}
 when defined(windows): 
   const 
@@ -2532,7 +2539,6 @@ proc OBJ_find_sigid_by_algs*(psignid: ptr cint; dig_nid: cint; pkey_nid: cint): 
 proc OBJ_add_sigid*(signid: cint; dig_id: cint; pkey_id: cint): cint {.cdecl, 
     importc: "OBJ_add_sigid", dynlib: cryptodll.}
 proc OBJ_sigid_free*() {.cdecl, importc: "OBJ_sigid_free", dynlib: cryptodll.}
-var obj_cleanup_defer* {.importc: "obj_cleanup_defer", dynlib: cryptodll.}: cint
 
 proc check_defer*(nid: cint) {.cdecl, importc: "check_defer", dynlib: cryptodll.}
 proc ERR_load_OBJ_strings*() {.cdecl, importc: "ERR_load_OBJ_strings", 
