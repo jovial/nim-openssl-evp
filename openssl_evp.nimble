@@ -1,6 +1,6 @@
 [Package]
 name          = "openssl_evp"
-version       = "0.1.1"
+version       = "0.1.2"
 author        = "Will Szumski"
 description   = "Wrapper for OpenSSL's EVP interface"
 license       = "OpenSSL License and SSLeay License"
